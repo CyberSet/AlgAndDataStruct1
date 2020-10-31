@@ -77,21 +77,19 @@ public:
 
 	//Adding element to any position in list
 	void insert(int data, size_t pos) {
-		if (pos >= 0 && pos <= size) {
-			elem* newElem = new elem(data);
-			if(isEmpty()){
-				begin = newElem;
-				end = begin;
-				size = 1;
-			}
+		if (pos <= size) {
+			if (isEmpty() || pos == size) push_back(data);
 			else {
-				elem* iter = begin;
-				while (pos-- != 0)
-					iter = iter->getNext();
-				newElem->setNext(iter->getNext());
-				iter->setNext(newElem);
-				if (newElem->getNext() == nullptr) end = newElem;
-				size++;
+				if (pos == 0) push_front(data);
+				else {
+					elem* newElem = new elem(data);
+					elem* iter = begin;
+					while (pos-- > 1)
+						iter = iter->getNext();
+					newElem->setNext(iter->getNext());
+					iter->setNext(newElem);
+					size++;
+				}
 			}
 		}
 	}
@@ -105,12 +103,19 @@ public:
 
 	//Deleting element from list by index
 	void remove(size_t pos) {
-		elem* iter = begin;
-		while (pos-- > 1) iter = iter->getNext();
-		elem* nextElem = iter->getNext();
-		iter->setNext(nextElem->getNext());
-		delete[] nextElem;
-		size--;
+		if (pos < size) {
+			if (pos == 0) pop_front();
+			else {
+				if (pos == size - 1) pop_back();
+				else {
+					elem* iter = begin;
+					while (pos-- > 1) iter = iter->getNext();
+					elem* nextElem = iter->getNext();
+					iter->setNext(nextElem->getNext());
+					size--;
+				}
+			}
+		}
 	}
 
 	//Getting size of list
@@ -132,9 +137,11 @@ public:
 
 	//Replacing element by index with new one
 	void set(size_t pos, int data) {
-		elem* iter = begin;
-		while (pos-- != 0) iter = iter->getNext();
-		iter->setInf(data);
+		if (pos < size) {
+			elem* iter = begin;
+			while (pos-- != 0) iter = iter->getNext();
+			iter->setInf(data);
+		}
 	}
 
 	//Checking list for filling
@@ -144,9 +151,9 @@ public:
 	}
 
 	//Adding another list to front of this one
-	void push_front(list lst) {
-		for (size_t i = 0; i < lst.getSize(); i++)
-			insert(lst.at(i), i);
+	void push_front(list *lst) {
+		for (size_t i = 0; i < lst->getSize(); i++) 
+			insert(lst->at(i), i);
 	}
 };
 #endif
