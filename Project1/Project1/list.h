@@ -21,23 +21,23 @@ private:
 	size_t size;
 public:
 	list() { begin = nullptr; end = nullptr; size = 0;}
-	~list() { delete[] begin; delete[] end;}
+	~list() { clear(); }
 
 	//Adding new element to end of list
 	void push_back(int temp) {
-		elem* newelem = new elem(temp);
-		if (!isEmpty()) end->setNext(newelem);
-		end = newelem;
-		if (isEmpty()) begin = end;
+		elem* newElem = new elem(temp);
+		if (isEmpty()) begin = newElem;
+		else end->setNext(newElem);
+		end = newElem;
 		size++;
 	}
 
 	//Adding new element to begin of list
 	void push_front(int temp) {
 		elem* newElem = new elem(temp);
-		if(!isEmpty()) newElem->setNext(begin);
+		if (isEmpty()) end = newElem;
+		else newElem->setNext(begin);
 		begin = newElem;
-		if (isEmpty()) end = begin;
 		size++;
 	}
 
@@ -53,10 +53,13 @@ public:
 				elem* newEnd = begin;
 				while (newEnd->getNext() != end) newEnd = newEnd->getNext();
 				newEnd->setNext(nullptr);
+				elem* deleted = end;
+				delete deleted;
 				end = newEnd;
 				size--;
-			}	
+			}
 		}
+		else throw "List is Empty";
 	}
 
 	//Deleting first element from list
@@ -69,10 +72,13 @@ public:
 			}
 			else {
 				elem* newBeg = begin->getNext();
+				elem* deleted = begin;
+				delete deleted;
 				begin = newBeg;
 				size--;
 			}
 		}
+		else throw "List is Empty";
 	}
 
 	//Adding element to any position in list
@@ -92,13 +98,17 @@ public:
 				}
 			}
 		}
+		else throw "Wrong index";
 	}
 
 	//Getting element from list by index
 	int at(size_t pos) {
-		elem* iter = begin;
-		while (pos-- != 0) iter = iter->getNext();
-		return iter->getInf();
+		if (pos < size) {
+			elem* iter = begin;
+			while (pos-- != 0) iter = iter->getNext();
+			return iter->getInf();
+		}
+		else throw "Wrong index";
 	}
 
 	//Deleting element from list by index
@@ -116,6 +126,7 @@ public:
 				}
 			}
 		}
+		else throw "Wrong index";
 	}
 
 	//Getting size of list
@@ -142,6 +153,7 @@ public:
 			while (pos-- != 0) iter = iter->getNext();
 			iter->setInf(data);
 		}
+		else throw "Wrong index";
 	}
 
 	//Checking list for filling

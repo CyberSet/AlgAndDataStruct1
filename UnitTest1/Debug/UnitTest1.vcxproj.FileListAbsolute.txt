@@ -1,0 +1,2 @@
+F:\Универ\Прога 3 сем\AlgAndDataStruct1\UnitTest1\Debug\UnitTest1.dll
+F:\Универ\Прога 3 сем\AlgAndDataStruct1\UnitTest1\Debug\UnitTest1.pdb

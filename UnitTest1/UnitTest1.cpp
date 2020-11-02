@@ -60,7 +60,12 @@ namespace ListTests
 
 		TEST_METHOD(PopBackTest3) { // empty list
 			list* list1 = new list();
-			list1->pop_back();
+			try {
+				list1->pop_back();
+			}
+			catch(const char* warning){
+				Assert::AreEqual(warning, "List is Empty");
+			}
 			Assert::IsTrue(list1->getSize() == 0);
 		}
 
@@ -81,7 +86,12 @@ namespace ListTests
 
 		TEST_METHOD(PopFrontTest3) { // empty list
 			list* list1 = new list();
-			list1->pop_front();
+			try {
+				list1->pop_front();
+			}
+			catch (const char* warning) {
+				Assert::AreEqual(warning, "List is Empty");
+			}
 			Assert::IsTrue(list1->getSize() == 0);
 		}
 
@@ -93,7 +103,12 @@ namespace ListTests
 
 		TEST_METHOD(InsertTest2) { // empty list insert at second place - out of range
 			list* list1 = new list();
-			list1->insert(1, 1);
+			try {
+				list1->insert(1,1);
+			}
+			catch (const char* warning) {
+				Assert::AreEqual(warning, "Wrong index");
+			}
 			Assert::IsTrue(list1->getSize() == 0);
 		}
 
@@ -119,7 +134,7 @@ namespace ListTests
 			Assert::IsTrue(list1->at(0) == 1 && list1->at(1) == 2 && list1->at(2) == 3 && list1->getSize() == 3);
 		}
 
-		TEST_METHOD(AtTest) {
+		TEST_METHOD(AtTest1) {
 			list* list1 = new list();
 			list1->push_back(1);
 			list1->push_back(2);
@@ -127,9 +142,25 @@ namespace ListTests
 			Assert::IsTrue(list1->at(0) == 1 && list1->at(1) == 2 && list1->at(2) == 3);
 		}
 
+		TEST_METHOD(AtTest2) {
+			list* list1 = new list();
+			list1->push_back(1);
+			try {
+				list1->at(1);
+			}
+			catch (const char* warning) {
+				Assert::AreEqual(warning, "Wrong index");
+			}
+		}
+
 		TEST_METHOD(RemoveTest1) { // empty list remove 
 			list* list1 = new list();
-			list1->remove(1);
+			try {
+				list1->remove(1);
+			}
+			catch (const char* warning) {
+				Assert::AreEqual(warning, "Wrong index");
+			}
 			Assert::IsTrue(list1->getSize() == 0);
 		}
 		
@@ -165,7 +196,12 @@ namespace ListTests
 			list1->push_back(1);
 			list1->push_back(2);
 			list1->push_back(3);
-			list1->remove(3);
+			try {
+				list1->remove(3);
+			}
+			catch (const char* warning) {
+				Assert::AreEqual(warning, "Wrong index");
+			}
 			Assert::IsTrue(list1->at(0) == 1 && list1->at(1) == 2 && list1->at(2) == 3 && list1->getSize() == 3);
 		}
 
@@ -196,7 +232,12 @@ namespace ListTests
 			list1->push_back(1);
 			list1->push_back(2);
 			list1->push_back(3);
-			list1->set(3, 1);
+			try {
+				list1->set(3, 4);
+			}
+			catch (const char* warning) {
+				Assert::AreEqual(warning, "Wrong index");
+			}
 			Assert::IsTrue(list1->at(0) == 1 && list1->at(1) == 2 && list1->at(2) == 3 && list1->getSize() == 3);
 		}
 
